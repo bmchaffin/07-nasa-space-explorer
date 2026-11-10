@@ -144,6 +144,15 @@ window.addEventListener('beforeinstallprompt', (event) => {
 	installPrompt.hidden = false;
 });
 
+window.addEventListener('appinstalled', () => {
+	deferredInstallPrompt = null;
+	installPrompt.hidden = true;
+});
+
+if (window.matchMedia('(display-mode: standalone)').matches) {
+	installPrompt.hidden = true;
+}
+
 installButton.addEventListener('click', async () => {
 	if (!deferredInstallPrompt) {
 		return;
@@ -171,6 +180,11 @@ notificationButton.addEventListener('click', async () => {
 		: 'Notifications Not Enabled';
 	notificationButton.disabled = true;
 });
+
+if ('Notification' in window && Notification.permission === 'granted') {
+	notificationButton.textContent = 'Notifications Enabled';
+	notificationButton.disabled = true;
+}
 
 getImagesButton.addEventListener('click', getSpaceImages);
 closeModalButton.addEventListener('click', closeModal);

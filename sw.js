@@ -7,7 +7,8 @@ const APP_SHELL = [
 	'./manifest.json',
 	'./js/dateRange.js',
 	'./js/script.js',
-	'./img/nasa-worm-logo.png'
+	'./img/nasa-worm-logo.png',
+	'./img/app-icon.svg'
 ];
 
 self.addEventListener('install', (event) => {
