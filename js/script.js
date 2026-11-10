@@ -17,7 +17,14 @@ const modalImage = document.getElementById('modalImage');
 const modalDate = document.getElementById('modalDate');
 const modalTitle = document.getElementById('modalTitle');
 const modalExplanation = document.getElementById('modalExplanation');
+const offlineStatus = document.getElementById('offlineStatus');
+const installPrompt = document.getElementById('installPrompt');
+const installButton = document.getElementById('installButton');
+const dismissInstallButton = document.getElementById('dismissInstallButton');
+const notificationButton = document.getElementById('notificationButton');
 const NASA_API_KEY = '6BhKNP7CGbtzMBTmdmQF6HFJQWqDwTjhgwLDbG7b';
+
+let deferredInstallPrompt;
 
 const spaceFacts = [
 	'A day on Venus is longer than a year on Venus.',
@@ -122,6 +129,48 @@ async function getSpaceImages() {
 		getImagesButton.disabled = false;
 	}
 }
+
+function updateConnectionStatus() {
+	offlineStatus.hidden = navigator.onLine;
+}
+
+window.addEventListener('online', updateConnectionStatus);
+window.addEventListener('offline', updateConnectionStatus);
+updateConnectionStatus();
+
+window.addEventListener('beforeinstallprompt', (event) => {
+	event.preventDefault();
+	deferredInstallPrompt = event;
+	installPrompt.hidden = false;
+});
+
+installButton.addEventListener('click', async () => {
+	if (!deferredInstallPrompt) {
+		return;
+	}
+
+	deferredInstallPrompt.prompt();
+	await deferredInstallPrompt.userChoice;
+	deferredInstallPrompt = null;
+	installPrompt.hidden = true;
+});
+
+dismissInstallButton.addEventListener('click', () => {
+	installPrompt.hidden = true;
+});
+
+notificationButton.addEventListener('click', async () => {
+	if (!('Notification' in window)) {
+		notificationButton.textContent = 'Notifications are not supported';
+		return;
+	}
+
+	const permission = await Notification.requestPermission();
+	notificationButton.textContent = permission === 'granted'
+		? 'Notifications Enabled'
+		: 'Notifications Not Enabled';
+	notificationButton.disabled = true;
+});
 
 getImagesButton.addEventListener('click', getSpaceImages);
 closeModalButton.addEventListener('click', closeModal);

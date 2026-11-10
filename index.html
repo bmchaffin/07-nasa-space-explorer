@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>NASA Space Explorer</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0b3d91" />
   <link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -18,6 +20,16 @@
       <input type="date" id="endDate" />
       <button id="getImagesButton" type="button">Get Space Images</button>
     </div>
+
+    <section class="app-controls" aria-label="App controls">
+      <p id="offlineStatus" class="connection-status" role="status" hidden>You are offline. Showing saved space photos when available.</p>
+      <div id="installPrompt" class="install-prompt" hidden>
+        <p>Install Space Explorer for quick access and offline support.</p>
+        <button id="installButton" type="button">Install App</button>
+        <button id="dismissInstallButton" class="secondary-button" type="button">Not now</button>
+      </div>
+      <button id="notificationButton" class="secondary-button" type="button">Enable Daily Notifications</button>
+    </section>
 
     <section class="space-fact" aria-live="polite">
       <p class="fact-label">Did You Know?</p>
@@ -46,5 +58,10 @@
 
   <script src="js/dateRange.js"></script>
   <script src="js/script.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+    }
+  </script>
 </body>
 </html>

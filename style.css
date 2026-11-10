@@ -51,6 +51,44 @@ h1 {
   padding: 0 20px;
 }
 
+.app-controls {
+  display: grid;
+  gap: 10px;
+  max-width: 760px;
+  margin: 0 auto 20px;
+}
+
+.connection-status,
+.install-prompt {
+  padding: 12px 16px;
+  background: #fff3cd;
+  border-left: 5px solid #e57200;
+}
+
+.install-prompt {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.install-prompt p {
+  flex: 1 1 100%;
+}
+
+.secondary-button {
+  width: auto;
+  background-color: #17233c;
+}
+
+.secondary-button:hover {
+  background-color: #0b3d91;
+}
+
+.app-controls [hidden] {
+  display: none;
+}
+
 /* Inputs and buttons */
 input[type="date"],
 button {
